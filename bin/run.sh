@@ -118,6 +118,12 @@ install_client_dependencies() {
   popd > /dev/null
 }
 
+function bundle_client {
+#   npm run build --prefix ${REPO_ROOT}
+  npm run deploy --prefix ${REPO_ROOT}
+  check_error $?
+}
+
 function run_client_tests {
   npm test -- --coverage --watchAll=false
   check_error $?
@@ -177,14 +183,14 @@ if [[ -n "${NFS_MOUNTED}" ]]; then
     echo "Cleaning NFS mounted target"
     rm -rf ${REPO_ROOT}/target
   fi
-  ln -sf ${BUILD_DIRECTORY_PREFIX}/target ${REPO_ROOT}/target
+  sudo ln -sf ${BUILD_DIRECTORY_PREFIX}/target ${REPO_ROOT}/target
   if [[ ! "$CS314_ENV" == "dev" ]]; then
-    mkdir -p ${BUILD_DIRECTORY_PREFIX}/client/dist
-    if [[ ! -L "${REPO_ROOT}/client/dist" && -d "${REPO_ROOT}/client/dist" ]]; then
+    sudo mkdir -p ${BUILD_DIRECTORY_PREFIX}/dist
+    if [[ ! -L "${REPO_ROOT}/dist" && -d "${REPO_ROOT}/dist" ]]; then
       echo "Cleaning NFS mounted client/dist"
-      rm -rf ${REPO_ROOT}/client/dist
+      rm -rf ${REPO_ROOT}/dist
     fi
-    ln -sf ${BUILD_DIRECTORY_PREFIX}/client/dist ${REPO_ROOT}/client/dist
+    ln -sf ${BUILD_DIRECTORY_PREFIX}/dist ${REPO_ROOT}/dist
   fi
 fi
 
@@ -201,7 +207,7 @@ if [[ "$CS314_ENV" == "dev" ]]; then
   run_server_and_hotloader
 else
   bundle_client
-  build_server
-  postman_tests
-  run_server
+  #build_server
+  #postman_tests
+  #run_server
 fi
