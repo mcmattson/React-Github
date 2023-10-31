@@ -1,0 +1,44 @@
+{
+  "$id": "https://example.com/address.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "User",
+  "description": "user response",
+  "type": "object",
+  "properties": {
+    "requestType": {
+      "description": "the object type should be user",
+      "type": "string",
+      "pattern": "^user$"
+    },
+    "register": {
+      "description": "Indicates rather or not to register this information.",
+      "type": "boolean"
+    },
+    "userId": {
+      "description": "returned userId",
+      "type": "integer"
+    },
+    "username": {
+      "description": "username",
+      "type": "string"
+    },
+    "password": {
+      "description": "password",
+      "type": "string"
+    },
+    "email": {
+      "description": "email",
+      "type": "string"
+    },
+    "success": {
+      "description": "returned duplicate or not",
+      "type": "boolean"
+    },
+    "message": {
+      "description": "returned duplicate message",
+      "type": "string"
+    }
+  },
+  "required": ["requestType", "register", "userId", "username", "password", "email", "success", "message"],
+  "additionalProperties": false
+}
